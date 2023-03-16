@@ -1,3 +1,7 @@
+window.onload=function(){//from ww  w . j  a  va2s. c  o  m
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementsByName("birth")[0].setAttribute('max', today);
+        }
 // validate form inputs before submitting data
 function validateForm()
 {
@@ -6,9 +10,12 @@ function validateForm()
     let address = document.getElementById(`address`).value;
     let email = document.getElementById(`email`).value;
     let mobile = document.getElementById(`mobile`).value;
+
     let birth = document.getElementById(`birth`).value;
-    let gender = document.getElementById(`gender`).value;
-    let takingMed = document.getElementById(`takingMed`).value;
+
+    // let gender = document.getElementById(`gender`).value;
+    let text = document.getElementById(`text`).value;
+    
 
     if(name == "")
     {
@@ -52,6 +59,12 @@ function validateForm()
         alert(`Please input date of birth`);
         return false;
     }
+
+    if(text == "")
+    {
+        alert(`Question taking medication is required`);
+        return false;
+    }
     return true;
 }
 
@@ -82,7 +95,7 @@ function showData()
         html += "<td>" + element.birth + "</td>";
         html += "<td>" + element.medHistory + "</td>";
         html += "<td>" + element.currSymptoms + "</td>";
-        html += "<td>" + element.takingMed + "</td>";
+        html += "<td>" + element.text + "</td>";
         html += '<td><button onclick="deleteData('+index+')" class="btn btn-danger">Delete</button><button onclick="updateData('+index+')" class="btn btn-warning m-2">Edit</button></td>'
         html += "</tr>";
     });
@@ -101,14 +114,32 @@ function AddData()
     {
         let name = document.getElementById("name").value;
         let age = document.getElementById("age").value;
-        let gender = document.getElementById("gender").value;
+        // let gender = document.getElementById("gender").value;
         let address = document.getElementById("address").value;
         let email = document.getElementById("email").value;
         let mobile = document.getElementById("mobile").value;
         let birth = document.getElementById("birth").value;
-        let medHistory = document.getElementById("medHistory").value;
+        var gender = document.getElementsByName('gender');
+        var genderData = '';
+        for(i = 0; i < gender.length; i++) {
+            if(gender[i].checked) {
+                genderData += gender[i].value;
+            }
+        }
+        var checkboxes = document.getElementsByName('medHistory');
+        var medHistory = [];
+        // looping through all checkboxes
+        for (var i = 0; i < checkboxes.length; i++) {
+            if(checkboxes[i].checked)
+            {
+                medHistory.push(checkboxes[i].value);
+            }
+        }
+        
+
+
         let currSymptoms = document.getElementById("currSymptoms").value;
-        let takingMed = document.getElementById("takingMed").value;
+        let text = document.getElementById("text").value;
 
         let peopleList;
         if(localStorage.getItem("peopleList") == null)
@@ -123,28 +154,48 @@ function AddData()
         peopleList.push({
             name : name,
             age : age,
-            gender : gender,
+            gender : genderData,
             address : address,
             email : email,
             mobile : mobile,
             birth : birth,
             medHistory : medHistory,
             currSymptoms : currSymptoms,
-            takingMed : takingMed,
+            text : text,
         });
 
         localStorage.setItem("peopleList", JSON.stringify(peopleList));
         showData();
         document.getElementById(`name`).value = "";
         document.getElementById(`age`).value = "";
-        document.getElementById(`gender`).value = "";
+        // document.getElementById(`gender`).value = "";
         document.getElementById(`address`).value = "";
         document.getElementById(`email`).value = "";
         document.getElementById(`mobile`).value = "";
         document.getElementById(`birth`).value = "";
-        document.getElementById(`medHistory`).value = "";
+        // document.getElementById(`medHistory`).value = "";
         document.getElementById(`currSymptoms`).value = "";
-        document.getElementById(`takingMed`).value = "";
+        document.getElementById(`text`).value = "";
+
+        var checkboxes = document.getElementsByName('medHistory');
+
+       
+        // looping through all checkboxes
+        // for (var i = 0; i < checkboxes.length; i++) {
+        // checkboxes[i].checked = false;
+        
+        // }
+        // uncheck radio btn after submit
+        var get= document.getElementsByName('gender');
+        for(var i= 0; i<get.length; i++){
+            get[i].checked= false;
+        }
+
+        // uncheck checkboxes after submit
+        var get= document.getElementsByName('medHistory');
+        for(var i= 0; i<get.length; i++){
+            get[i].checked= false;
+        }
     }
 }
 
@@ -182,50 +233,109 @@ function updateData(index)
         {
             peopleList = JSON.parse(localStorage.getItem(`peopleList`));
         }
-
+        
         document.getElementById("name").value = peopleList[index].name;
         document.getElementById("age").value = peopleList[index].age;
-        document.getElementById("gender").value = peopleList[index].gender;
+        // document.getElementById("gender").value = peopleList[index].gender;
         document.getElementById("address").value = peopleList[index].address;
         document.getElementById("email").value = peopleList[index].email;
         document.getElementById("mobile").value = peopleList[index].mobile;
         document.getElementById("birth").value = peopleList[index].birth;
-        document.getElementById("medHistory").value = peopleList[index].medHistory;
+        // document.getElementById("medHistory").value = peopleList[index].medHistory;
         document.getElementById("currSymptoms").value = peopleList[index].currSymptoms;
-        document.getElementById("takingMed").value = peopleList[index].takingMed;
+        document.getElementById("text").value = peopleList[index].text;
 
+        const gender = document.getElementsByName("gender");
+        for(var i= 0; i<gender.length; i++){
+            if (peopleList[index].gender === gender[i].value) {
+                gender[i].checked= true;
+            }
+        }
+
+        let medHistoryData = peopleList[index].medHistory;
+        var get= document.getElementsByName('medHistory');
+        for(var i= 0; i < get.length; i++){
+            if (medHistoryData.includes(get[i].value)) {
+                get[i].checked = true;
+            }
+        }
         document.querySelector("#Update").onclick = function(){
             if(validateForm() == true)
             {
                 peopleList[index].name = document.getElementById("name").value;
                 peopleList[index].age = document.getElementById("age").value;
-                peopleList[index].gender = document.getElementById("gender").value;
+                // peopleList[index].gender = document.getElementById("gender").value;
                 peopleList[index].address = document.getElementById("address").value;
                 peopleList[index].email = document.getElementById("email").value;
                 peopleList[index].mobile = document.getElementById("mobile").value;
                 peopleList[index].birth = document.getElementById("birth").value;
-                peopleList[index].medHistory = document.getElementById("medHistory").value;
+                // peopleList[index].medHistory = document.getElementById("medHistory").value;
                 peopleList[index].currSymptoms = document.getElementById("currSymptoms").value;
-                peopleList[index].takingMed = document.getElementById("takingMed").value;
+                peopleList[index].text = document.getElementById("text").value;
+                
+                var gender = document.getElementsByName('gender');
+                var genderData = '';
+                for(i = 0; i < gender.length; i++) {
+                    if(gender[i].checked) {
+                        genderData += gender[i].value;
+                    }
+        
+                }
+                peopleList[index].gender = genderData;
 
+                var checkboxes = 
+                document.getElementsByName('medHistory');
+                
+                var medHistory = [];
+        
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked) {
+                        medHistory.push(checkboxes[i].value) 
+                    }
+                }
+                peopleList[index].medHistory = medHistory;
                 localStorage.setItem("peopleList", JSON.stringify(peopleList));
 
                 showData();
 
                 document.getElementById("name").value = "";
                 document.getElementById("age").value = "";
-                document.getElementById("gender").value = "";
+                // document.getElementById("gender").value = "";
                 document.getElementById("address").value = "";
                 document.getElementById("email").value = "";
                 document.getElementById("mobile").value = "";
                 document.getElementById("birth").value = "";
-                document.getElementById("medHistory").value = "";
+                // document.getElementById("medHistory").value = "";
                 document.getElementById("currSymptoms").value = "";
-                document.getElementById("takingMed").value = "";
-
+                document.getElementById("text").value = "";
+                // uncheck after submit
+                
+                var get= document.getElementsByName('gender');
+                for(var i= 0; i<get.length; i++){
+                    get[i].checked= false;
+                }
+        
+                // uncheck checkboxes after submit
+                var get= document.getElementsByName('medHistory');
+                for(var i= 0; i<get.length; i++){
+                    get[i].checked= false;
+                }
+                
                 // update button will hide and submit button will show
                 document.getElementById("Submit").style.display = "block";
                 document.getElementById("Update").style.display = "none";
             }
         }
 }
+
+
+    function setDisable(){
+        let get = document.getElementById('text');
+        get.setAttribute('disabled', true);
+        }
+
+    function setEnable(){
+    let get = document.getElementById('text');
+    get.disabled = false;
+    }
+            

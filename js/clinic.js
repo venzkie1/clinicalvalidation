@@ -1,15 +1,27 @@
 function validate()
 {
-    let username = document.getElementById('username');
-    let password = document.getElementById(`password`);
 
-    if(username === "admin" && password === "user")
+    let user = 
+    
+    if(username == "")
     {
-        alert(`Login succesfully`);
+        alert(`Fill the username field!`);
         return false;
     }
-    else
+    else (username == "admin@yahoo.com")
     {
-        alert(`Login failed`);
+        alert(`Login successful`);
+
     }
+
+    if(password == "") {  
+        alert("**Fill the password please!")
+        return false;  
+     }  
+      
+
+     if(password == "admin12345") {  
+        alert(`Login successful`);
+        return false;  
+     }  
 }

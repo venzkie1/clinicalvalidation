@@ -77,8 +77,8 @@
 
                 <div class="form-group col-md-6"><span>*</span>
                     <label for="birth">Gender: </label>
-                    <input type="radio" name="gender" id="gender" required value="Male">Male
-                    <input type="radio" name="gender" id="gender" required value="Female">Female 
+                    <input type="radio" name="gender" class="gender" required value="Male">Male
+                    <input type="radio" name="gender" class="gender" required value="Female">Female 
                     <br>
                     <label for="" style="float:right; margin-top: -25px;">Current Symptoms</label> <br>
                     <select name="currSymptoms" id="currSymptoms" style="float:right; margin-top: -25px;" multiple>
@@ -92,10 +92,10 @@
                     </select>
                 </div>
                 <div style="align-items: center; text-align: center;">
-                    <span>*</span> <label for="">Are you talking medications? </label><br>
-                    <input type="radio" name="takingMed" id="takingMed">Yes
-                    <input type="radio" name="takingMed" id="takingMed" >No <br>
-                    <textarea name="" id="" cols="60" rows="5" style="resize: none;"></textarea>
+                    <span>*</span> <label for="">Are you taking medications? </label><br>
+                    <input type="radio" name="takingMed" id="takingMed" value="Yes" onclick="setEnable()">Yes
+                    <input type="radio" name="takingMed" id="takingMed" value="No" onclick="setDisable()">No <br>
+                    <textarea name="" id="text" cols="60" rows="5" style="resize: none; color: black;"></textarea>
                 </div>
 
                 <div class="col-lg-12 mt-5">
