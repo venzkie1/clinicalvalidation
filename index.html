@@ -27,19 +27,33 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="information.html" class="form">
+            <!-- <form class="form" onsubmit="return login()"> -->
                 <h1>LOGIN</h1>
                 <input type="email" id="email" name="email" class="box" placeholder="Enter Email" required>
                 <input type="password" name="password" id="password" class="box" placeholder="Enter Password" required>
-                <input type="submit" value="LOGIN" id="submit" onclick="validate()">
-            </form>
+                <input type="submit" value="LOGIN" id="submit" onclick="login()">
+            <!-- </form> -->
         </div>
       </div>
     </div>
   </div>
 
     <!-- custom js -->
-    <script src="js/clinic.js"></script>
+    <script>
+      function login() {
+        const email = "kevin@gmail.com";
+        const password = "123";
+        let getEmail = document.getElementById("email").value;
+        let getPassword = document.getElementById("password").value;
+
+        if (email !== getEmail || password !== getPassword) {
+          alert('Email or Password is not correct');
+          return;
+        }
+        
+        window.location.replace("information.html");
+      }
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     
